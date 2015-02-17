@@ -1,0 +1,136 @@
+unit UModificarClientes;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, UClientesNuevos, cxLookAndFeelPainters, DB, IBCustomDataSet,
+  IBQuery, StdCtrls, cxButtons, ComCtrls, jpeg, ExtCtrls, UPrincipal,
+  UDatosDB, pngimage;
+
+type
+  TFModificarCliente = class(TFClientesNuevos)
+    IBQGetDatosClientes: TIBQuery;
+    IBQGetEnfermedadesCliente: TIBQuery;
+    IBQGetActividadesCliente: TIBQuery;
+    IBQDelEnfermedades: TIBQuery;
+    IBQDelActividades: TIBQuery;
+    procedure FormShow(Sender: TObject);
+    procedure BAceptarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    idCliente : Integer;
+  end;
+
+var
+  FModificarCliente: TFModificarCliente;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFModificarCliente.FormShow(Sender: TObject);
+var
+  indice : Integer;
+begin
+  inherited;
+  try
+    IBQGetDatosClientes.Close;
+    IBQGetDatosClientes.ParamByName('id').AsInteger := idCliente;
+    IBQGetDatosClientes.Open;
+    IBQGetEnfermedadesCliente.Close;
+    IBQGetEnfermedadesCliente.ParamByName('id').AsInteger := idCliente;
+    IBQGetEnfermedadesCliente.Open;
+    IBQGetActividadesCliente.Close;
+    IBQGetActividadesCliente.ParamByName('id').AsInteger := idCliente;
+    IBQGetActividadesCliente.Open;
+    ENombre.Text := IBQGetDatosClientes.fieldByName('nombre').AsString;
+    EApellido.Text := IBQGetDatosClientes.fieldByName('apellido').AsString;
+    if (IBQGetDatosClientes.fieldByName('edad').Value = 0) then
+      EEdad.Text := ''
+    else
+      EEdad.Text := IntToStr(IBQGetDatosClientes.fieldByName('edad').AsInteger);
+    EDireccion.Text := IBQGetDatosClientes.fieldByName('direccion').AsString;
+    if (IBQGetDatosClientes.fieldByName('caracteristica').Value = null) then
+      ECaracteristica.Text := ''
+    else
+      ECaracteristica.Text := IntToStr(IBQGetDatosClientes.fieldByName('caracteristica').AsInteger);
+    if (IBQGetDatosClientes.fieldByName('telefono').Value = null) then
+      ETelefono.Text := ''
+    else
+      ETelefono.Text := IntToStr(IBQGetDatosClientes.fieldByName('telefono').AsInteger);
+    DTPFechaNacimiento.Date := StrToDate(IBQGetDatosClientes.fieldByName('fecha_nacimiento').AsString);
+    ENombreRelacion.Text := IBQGetDatosClientes.fieldByName('nomyap_familiar').AsString;
+    if (IBQGetDatosClientes.fieldByName('caracteristica_familiar').Value = null) then
+      ECarFamiliar.Text := ''
+    else
+      ECarFamiliar.Text := IntToStr(IBQGetDatosClientes.fieldByName('caracteristica_familiar').AsInteger);
+    if (IBQGetDatosClientes.fieldByName('telefono_familiar').Value = null) then
+      ETelefonoRelacion.Text := ''
+    else
+      ETelefonoRelacion.Text := IntToStr(IBQGetDatosClientes.fieldByName('telefono_familiar').AsInteger);
+    ERelacion.Text := IBQGetDatosClientes.fieldByName('relacion_familiar').AsString;
+    ERegimen.Text := IBQGetDatosClientes.fieldByName('regimen_actividades').AsString;
+    IBQGetEnfermedadesCliente.First;
+    while not IBQGetEnfermedadesCliente.Eof do
+    begin
+      case IBQGetEnfermedadesCliente.FieldByName('id_enfermedad').AsInteger of
+          1 : CBDiabetes.Checked := true;
+          2 : CBAfeccionCorazon.Checked := true;
+          3 : CBIpertension.Checked := true;
+          4 : CBColumna.Checked := true;
+          5 : CBAsma.Checked := true;
+          6 : CBEpilepsia.Checked := true;
+          7 : begin
+                CBLuxaciones.Checked := true;
+                EArticulacion.Enabled := true;
+                LArticulaciones.Enabled := true;
+                EArticulacion.Text := IBQGetEnfermedadesCliente.fieldByName('descripcion').AsString;
+              end;
+          8 : CBCuidadoMedico.Checked := true;
+          9 : begin
+                CBMedicamento.Checked := true;
+                EMedicamento.Enabled := true;
+                LMedicamentos.Enabled := true;
+                EMedicamento.Text := IBQGetEnfermedadesCliente.fieldByName('descripcion').AsString;
+              end;
+          10 : begin
+                  CBOtros.Checked := true;
+                  EOtra.Enabled := true;
+                  LOtra.Enabled := true;
+                  EOtra.Text := IBQGetEnfermedadesCliente.fieldByName('descripcion').AsString;
+                end;
+      end;
+      IBQGetEnfermedadesCliente.Next;
+    end;
+    indice := 0;
+    IBQGetActividadesCliente.First;
+    while not IBQGetActividadesCliente.Eof do
+    begin
+      Inc(indice);
+      SetLength(Actividades,indice);
+      Actividades[indice-1] := IBQGetActividadesCliente.fieldByName('id_disiplina').AsInteger;
+      IBQGetActividadesCliente.Next;
+    end;
+  except
+  end;
+end;
+
+procedure TFModificarCliente.BAceptarClick(Sender: TObject);
+begin
+  IBQDelActividades.Close;
+  IBQDelActividades.ParamByName('id').AsInteger := idCliente;
+  IBQDelActividades.Open;
+  IBQDelEnfermedades.Close;
+  IBQDelEnfermedades.ParamByName('id').AsInteger := idCliente;
+  IBQDelEnfermedades.Open;
+  DMGimnasio.IBTGimnasio.CommitRetaining;
+
+  IBQinsertCliente.Close;
+  IBQInsertCliente.ParamByName('id').AsInteger := idCliente;
+  inherited;
+end;
+
+end.

@@ -1,0 +1,204 @@
+inherited FEstadisticas: TFEstadisticas
+  Left = 337
+  Top = 146
+  Width = 747
+  Height = 528
+  Caption = 'FEstadisticas'
+  OldCreateOrder = True
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited PEncabezado: TPanel
+    Width = 739
+    inherited Image1: TImage
+      Width = 731
+      Stretch = True
+    end
+    inherited Image3: TImage
+      Left = 576
+    end
+  end
+  object DecisionGrid1: TDecisionGrid
+    Left = 200
+    Top = 168
+    Width = 457
+    Height = 289
+    DefaultColWidth = 100
+    DefaultRowHeight = 20
+    CaptionColor = clActiveCaption
+    CaptionFont.Charset = DEFAULT_CHARSET
+    CaptionFont.Color = clCaptionText
+    CaptionFont.Height = -11
+    CaptionFont.Name = 'MS Sans Serif'
+    CaptionFont.Style = []
+    DataColor = clInfoBk
+    DataSumColor = clNone
+    DataFont.Charset = DEFAULT_CHARSET
+    DataFont.Color = clWindowText
+    DataFont.Height = -11
+    DataFont.Name = 'MS Sans Serif'
+    DataFont.Style = []
+    LabelFont.Charset = DEFAULT_CHARSET
+    LabelFont.Color = clWindowText
+    LabelFont.Height = -11
+    LabelFont.Name = 'MS Sans Serif'
+    LabelFont.Style = []
+    LabelColor = clBtnFace
+    LabelSumColor = clInactiveCaption
+    DecisionSource = DSEstadisticas
+    Dimensions = <>
+    Totals = False
+    ShowCubeEditor = False
+    Color = clBtnFace
+    GridLineWidth = 1
+    GridLineColor = clWindowText
+    TabOrder = 1
+  end
+  object DCEstadisticas: TDecisionCube
+    DataSet = IBQuery1
+    DimensionMap = <
+      item
+        ActiveFlag = diAsNeeded
+        FieldType = ftInteger
+        Fieldname = 'COUNT'
+        BaseName = 'N.NUMERO'
+        Name = 'Cantidad '
+        DerivedFrom = -1
+        DimensionType = dimCount
+        BinType = binNone
+        ValueCount = -1
+        Active = True
+      end
+      item
+        ActiveFlag = diAsNeeded
+        FieldType = ftString
+        Fieldname = 'HORA'
+        BaseName = 'N.HORA'
+        Name = 'Hora de clase'
+        DerivedFrom = -1
+        DimensionType = dimDimension
+        BinType = binNone
+        ValueCount = 0
+        Active = True
+      end
+      item
+        ActiveFlag = diAsNeeded
+        FieldType = ftString
+        Fieldname = 'NOMBRE'
+        BaseName = 'D.NOMBRE'
+        Name = 'Disiplina'
+        DerivedFrom = -1
+        DimensionType = dimDimension
+        BinType = binNone
+        ValueCount = 0
+        Active = True
+      end
+      item
+        ActiveFlag = diAsNeeded
+        FieldType = ftString
+        Fieldname = 'FECHA'
+        BaseName = 'N.FECHA'
+        Name = 'Fecha de clase'
+        DerivedFrom = -1
+        DimensionType = dimDimension
+        BinType = binNone
+        ValueCount = 0
+        Active = True
+      end>
+    ShowProgressDialog = True
+    MaxDimensions = 5
+    MaxSummaries = 10
+    MaxCells = 0
+    Left = 96
+    Top = 128
+  end
+  object DSEstadisticas: TDecisionSource
+    DecisionCube = DCEstadisticas
+    ControlType = xtCheck
+    SparseRows = False
+    SparseCols = False
+    Left = 56
+    Top = 128
+    DimensionCount = 0
+    SummaryCount = 0
+    CurrentSummary = 0
+    SparseRows = False
+    SparseCols = False
+    DimensionInfo = ()
+  end
+  object DQEstadisticas: TDecisionQuery
+    Active = True
+    DatabaseName = 'GIM'
+    SQL.Strings = (
+      
+        'SELECT Numeros.HORA, Disiplinas.NOMBRE, Numeros.FECHA, COUNT( Nu' +
+        'meros.NUMERO )'
+      'FROM NUMEROS Numeros'
+      '   INNER JOIN DISIPLINAS Disiplinas'
+      '   ON  (Disiplinas.ID_DISIPLINA = Numeros.DISIPLINA)  '
+      'GROUP BY Numeros.HORA, Disiplinas.NOMBRE, Numeros.FECHA')
+    Left = 32
+    Top = 80
+  end
+  object Database1: TDatabase
+    AliasName = 'IBLocal'
+    Connected = True
+    DatabaseName = 'GIM'
+    LoginPrompt = False
+    Params.Strings = (
+      'SERVER NAME=D:\Trabajo Gimnasio\GIMNASIO.FDB'
+      'USER NAME=SYSDBA'
+      'OPEN MODE=READ/WRITE'
+      'SCHEMA CACHE SIZE=8'
+      'LANGDRIVER='
+      'SQLQRYMODE='
+      'SQLPASSTHRU MODE=SHARED AUTOCOMMIT'
+      'SCHEMA CACHE TIME=-1'
+      'MAX ROWS=-1'
+      'BATCH COUNT=200'
+      'ENABLE SCHEMA CACHE=FALSE'
+      'SCHEMA CACHE DIR='
+      'ENABLE BCD=FALSE'
+      'BLOBS TO CACHE=64'
+      'BLOB SIZE=32'
+      'WAIT ON LOCKS=FALSE'
+      'COMMIT RETAIN=FALSE'
+      'ROLE NAME='
+      'PASSWORD=masterkey')
+    SessionName = 'Default'
+    Left = 64
+    Top = 80
+  end
+  object IBQuery1: TIBQuery
+    Database = DMGimnasio.IBDGimnasio
+    Transaction = DMGimnasio.IBTGimnasio
+    Active = True
+    BufferChunks = 1000
+    CachedUpdates = False
+    SQL.Strings = (
+      'SELECT COUNT( N.NUMERO ),N.HORA, D.NOMBRE, N.FECHA'
+      'FROM NUMEROS N INNER JOIN DISIPLINAS D'
+      'ON  (D.ID_DISIPLINA = N.DISIPLINA)  '
+      'GROUP BY N.HORA, D.NOMBRE, N.FECHA')
+    Left = 136
+    Top = 128
+    object IBQuery1COUNT: TIntegerField
+      FieldName = 'COUNT'
+      Required = True
+    end
+    object IBQuery1HORA: TIBStringField
+      FieldName = 'HORA'
+      Required = True
+      Size = 5
+    end
+    object IBQuery1NOMBRE: TIBStringField
+      FieldName = 'NOMBRE'
+      Size = 50
+    end
+    object IBQuery1FECHA: TIBStringField
+      FieldName = 'FECHA'
+      Required = True
+      Size = 10
+    end
+  end
+end

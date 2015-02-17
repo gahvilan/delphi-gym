@@ -1,0 +1,209 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{f29c6bf4-7f90-4f0b-8403-12f0b3db6659}</ProjectGuid>
+    <MainSource>Gimnasio.dpr</MainSource>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
+    <DCC_DependencyCheckOutputName>Gimnasio.exe</DCC_DependencyCheckOutputName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Version>7.0</Version>
+    <DCC_DebugInformation>False</DCC_DebugInformation>
+    <DCC_LocalDebugSymbols>False</DCC_LocalDebugSymbols>
+    <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+    <DCC_UnitSearchPath>C:\Programas\Componentes Delphi</DCC_UnitSearchPath>
+    <DCC_ResourcePath>C:\Programas\Componentes Delphi</DCC_ResourcePath>
+    <DCC_ObjPath>C:\Programas\Componentes Delphi</DCC_ObjPath>
+    <DCC_IncludePath>C:\Programas\Componentes Delphi</DCC_IncludePath>
+    <DCC_Define>RELEASE</DCC_Define>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <Version>7.0</Version>
+    <DCC_UnitSearchPath>C:\Programas\Componentes Delphi</DCC_UnitSearchPath>
+    <DCC_ResourcePath>C:\Programas\Componentes Delphi</DCC_ResourcePath>
+    <DCC_ObjPath>C:\Programas\Componentes Delphi</DCC_ObjPath>
+    <DCC_IncludePath>C:\Programas\Componentes Delphi</DCC_IncludePath>
+    <DCC_Define>DEBUG</DCC_Define>
+  </PropertyGroup>
+  <ProjectExtensions>
+    <Borland.Personality>Delphi.Personality</Borland.Personality>
+    <Borland.ProjectType>VCLApplication</Borland.ProjectType>
+    <BorlandProject>
+<BorlandProject xmlns=""> <Delphi.Personality>   <Parameters>
+      <Parameters Name="UseLauncher">False</Parameters>
+      <Parameters Name="LoadAllSymbols">True</Parameters>
+      <Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
+    </Parameters>
+    <Language>
+      <Language Name="RootDir">C:\Archivos de programa\Borland\Delphi7\Bin\</Language>
+    </Language>
+    <VersionInfo>
+      <VersionInfo Name="IncludeVerInfo">False</VersionInfo>
+      <VersionInfo Name="AutoIncBuild">False</VersionInfo>
+      <VersionInfo Name="MajorVer">1</VersionInfo>
+      <VersionInfo Name="MinorVer">0</VersionInfo>
+      <VersionInfo Name="Release">0</VersionInfo>
+      <VersionInfo Name="Build">0</VersionInfo>
+      <VersionInfo Name="Debug">False</VersionInfo>
+      <VersionInfo Name="PreRelease">False</VersionInfo>
+      <VersionInfo Name="Special">False</VersionInfo>
+      <VersionInfo Name="Private">False</VersionInfo>
+      <VersionInfo Name="DLL">False</VersionInfo>
+      <VersionInfo Name="Locale">3082</VersionInfo>
+      <VersionInfo Name="CodePage">1252</VersionInfo>
+    </VersionInfo>
+    <VersionInfoKeys>
+      <VersionInfoKeys Name="CompanyName"></VersionInfoKeys>
+      <VersionInfoKeys Name="FileDescription"></VersionInfoKeys>
+      <VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
+      <VersionInfoKeys Name="InternalName"></VersionInfoKeys>
+      <VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys>
+      <VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
+      <VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys>
+      <VersionInfoKeys Name="ProductName"></VersionInfoKeys>
+      <VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
+      <VersionInfoKeys Name="Comments"></VersionInfoKeys>
+    </VersionInfoKeys>
+    <Source>
+      <Source Name="MainSource">Gimnasio.dpr</Source>
+    </Source>
+  </Delphi.Personality> </BorlandProject></BorlandProject>
+  </ProjectExtensions>
+  <ItemGroup />
+  <ItemGroup>
+    <DelphiCompile Include="Gimnasio.dpr">
+      <MainSource>MainSource</MainSource>
+    </DelphiCompile>
+    <DCCReference Include="UABMArticulos.pas">
+      <Form>FABMArticulos</Form>
+    </DCCReference>
+    <DCCReference Include="UABMClases.pas">
+      <Form>FABMClases</Form>
+    </DCCReference>
+    <DCCReference Include="UABMGeneral.pas">
+      <Form>FABMGeneral</Form>
+    </DCCReference>
+    <DCCReference Include="UABMProfesores.pas">
+      <Form>FABMProfesores</Form>
+    </DCCReference>
+    <DCCReference Include="UABMUsuarios.pas">
+      <Form>FABMUsuarios</Form>
+    </DCCReference>
+    <DCCReference Include="UArticulos.pas">
+      <Form>FArticulos</Form>
+    </DCCReference>
+    <DCCReference Include="UAvisos.pas">
+      <Form>FAvisos</Form>
+    </DCCReference>
+    <DCCReference Include="UClientesNuevos.pas">
+      <Form>FClientesNuevos</Form>
+    </DCCReference>
+    <DCCReference Include="UCronograma.pas">
+      <Form>FCronograma</Form>
+    </DCCReference>
+    <DCCReference Include="UDatosDB.pas">
+      <Form>DMGimnasio</Form>
+    </DCCReference>
+    <DCCReference Include="UDis.pas">
+      <Form>FDis</Form>
+    </DCCReference>
+    <DCCReference Include="UEliminarPilates.pas">
+      <Form>FEliminarPilates</Form>
+    </DCCReference>
+    <DCCReference Include="UEliminarRegAparatos.pas">
+      <Form>FEliminarRegAparatos</Form>
+    </DCCReference>
+    <DCCReference Include="UEntradaSalida.pas">
+      <Form>FEntradaSalida</Form>
+    </DCCReference>
+    <DCCReference Include="UEntradasVarias.pas">
+      <Form>FEntradasVarias</Form>
+    </DCCReference>
+    <DCCReference Include="UEstadisticas.pas">
+      <Form>FEstadisticas</Form>
+    </DCCReference>
+    <DCCReference Include="UFechaPago.pas">
+      <Form>FFechaPago</Form>
+    </DCCReference>
+    <DCCReference Include="UHoraReserva.pas">
+      <Form>FHora</Form>
+    </DCCReference>
+    <DCCReference Include="UIngresosVarios.pas">
+      <Form>FIngresosVarios</Form>
+    </DCCReference>
+    <DCCReference Include="UListadoClientes.pas">
+      <Form>FListadoClientes</Form>
+    </DCCReference>
+    <DCCReference Include="ULogin.pas">
+      <Form>FLogin</Form>
+    </DCCReference>
+    <DCCReference Include="UModificarClientes.pas">
+      <Form>FModificarCliente</Form>
+    </DCCReference>
+    <DCCReference Include="UPagoGimnasio.pas">
+      <Form>FPagoGimnasio</Form>
+    </DCCReference>
+    <DCCReference Include="UParametros.pas">
+      <Form>FParametros</Form>
+    </DCCReference>
+    <DCCReference Include="UPilates.pas">
+      <Form>FPilates</Form>
+    </DCCReference>
+    <DCCReference Include="UPrincipal.pas">
+      <Form>FPrincipal</Form>
+    </DCCReference>
+    <DCCReference Include="URepAparatos.pas">
+      <Form>FRepAparatos</Form>
+    </DCCReference>
+    <DCCReference Include="URepAparatosSueldos.pas">
+      <Form>FRepAparatosSueldos</Form>
+    </DCCReference>
+    <DCCReference Include="URepAvisos.pas">
+      <Form>FRepAvisos</Form>
+    </DCCReference>
+    <DCCReference Include="URepEntradaSalida.pas">
+      <Form>FRepEntradaSalida</Form>
+    </DCCReference>
+    <DCCReference Include="URepGenerico.pas">
+      <Form>FRepGenerico</Form>
+    </DCCReference>
+    <DCCReference Include="URepListaClientes.pas">
+      <Form>FRepListaClientes</Form>
+    </DCCReference>
+    <DCCReference Include="URepListadoPilates.pas">
+      <Form>FListadoPilates</Form>
+    </DCCReference>
+    <DCCReference Include="URepListadoPilatesPrev.pas">
+      <Form>FRepListadoPilates</Form>
+    </DCCReference>
+    <DCCReference Include="URepPlanillaES.pas">
+      <Form>FRepPlanillaES</Form>
+    </DCCReference>
+    <DCCReference Include="URepProfesoresAerobicos.pas">
+      <Form>FRepProfesoresAerobicos</Form>
+    </DCCReference>
+    <DCCReference Include="URepResumenMensual.pas">
+      <Form>FRepResumenMensual</Form>
+    </DCCReference>
+    <DCCReference Include="URepStock.pas">
+      <Form>FRepStock</Form>
+    </DCCReference>
+    <DCCReference Include="URepSueldoAerobicos.pas">
+      <Form>FRepSueldoAerobicos</Form>
+    </DCCReference>
+    <DCCReference Include="UReservas.pas">
+      <Form>FReservas</Form>
+    </DCCReference>
+    <DCCReference Include="UResumenMensual.pas">
+      <Form>FResumenMensual</Form>
+    </DCCReference>
+    <DCCReference Include="USalida.pas">
+      <Form>FSalida</Form>
+    </DCCReference>
+    <DCCReference Include="UUniversal.pas">
+      <Form>FUniversal</Form>
+    </DCCReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Borland.Delphi.Targets" />
+</Project>

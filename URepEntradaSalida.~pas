@@ -1,0 +1,153 @@
+unit URepEntradaSalida;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, URepGenerico, QRCtrls, QuickRpt, ExtCtrls, UPrincipal, DB,
+  IBCustomDataSet, IBQuery, UDatosDB, QRPDFFilt, QRExport;
+
+type
+  TFRepEntradaSalida = class(TFRepGenerico)
+    IBQEntrada: TIBQuery;
+    DSEntrada: TDataSource;
+    QRBand2: TQRBand;
+    QRLabel3: TQRLabel;
+    QRLabel4: TQRLabel;
+    QRLabel5: TQRLabel;
+    QRBand5: TQRBand;
+    IBQSalida: TIBQuery;
+    DSSalida: TDataSource;
+    QRDBText4: TQRDBText;
+    QRDBText5: TQRDBText;
+    QRDBText6: TQRDBText;
+    QRLabel6: TQRLabel;
+    QuickRep2: TQuickRep;
+    QRBand4: TQRBand;
+    QRLabel7: TQRLabel;
+    QRBand3: TQRBand;
+    QRDBText1: TQRDBText;
+    QRDBText2: TQRDBText;
+    QRDBText3: TQRDBText;
+    QRCompRep: TQRCompositeReport;
+    QRLabel8: TQRLabel;
+    QRLabel9: TQRLabel;
+    QRLabel10: TQRLabel;
+    QRBand6: TQRBand;
+    QRLabel12: TQRLabel;
+    c: TQRExpr;
+    QRLabel13: TQRLabel;
+    QRExpr3: TQRExpr;
+    QRLabel15: TQRLabel;
+    QRBand7: TQRBand;
+    QRLabel14: TQRLabel;
+    QRExpr1: TQRExpr;
+    QRLTotal: TQRLabel;
+    IBQEntradaINGRESO: TIBStringField;
+    IBQEntradaSALDO: TIBBCDField;
+    QRRTFFilter1: TQRRTFFilter;
+    QRPDFFilter1: TQRPDFFilter;
+    IBQEntradaDISIPLINA: TIBStringField;
+    IBQSalidaINGRESO: TIBStringField;
+    IBQSalidaDESCRIPCION: TIBStringField;
+    IBQSalidaVALOR: TIBBCDField;
+    procedure QuickRep1BeforePrint(Sender: TCustomQuickRep;
+      var PrintReport: Boolean);
+    procedure QuickRep2BeforePrint(Sender: TCustomQuickRep;
+      var PrintReport: Boolean);
+    procedure QRCompRepAddReports(Sender: TObject);
+    procedure QRDBText6Print(sender: TObject; var Value: String);
+    procedure QRDBText3Print(sender: TObject; var Value: String);
+    procedure QRExpr1Print(sender: TObject; var Value: String);
+    procedure cPrint(sender: TObject; var Value: String);
+    procedure IBQSalidaFilterRecord(DataSet: TDataSet;
+      var Accept: Boolean);
+    procedure IBQSalidaAfterOpen(DataSet: TDataSet);
+  private
+
+  public
+    Fecha : TDate;
+    Caja : Double;
+  end;
+
+var
+  FRepEntradaSalida: TFRepEntradaSalida;
+
+implementation
+
+uses
+  URepPlanillaES;
+{$R *.dfm}
+
+procedure TFRepEntradaSalida.QuickRep1BeforePrint(Sender: TCustomQuickRep;
+  var PrintReport: Boolean);
+begin
+  inherited;
+  IBQEntrada.Close;
+  IBQEntrada.ParamByName('fecha').AsString := DateToStr(Fecha);
+  IBQEntrada.ParamByName('fecha_2').AsDate := Fecha;
+  IBQEntrada.Open;
+end;
+
+procedure TFRepEntradaSalida.QuickRep2BeforePrint(Sender: TCustomQuickRep;
+  var PrintReport: Boolean);
+begin
+  inherited;
+  IBQSalida.Close;
+  IBQSalida.ParamByName('fecha').AsString := DateToStr(Fecha);
+  IBQSalida.Open;
+end;
+
+procedure TFRepEntradaSalida.QRCompRepAddReports(Sender: TObject);
+begin
+  inherited;
+  QRCompRep.Reports.Clear;
+  QRCompRep.Reports.Add(QuickRep1);
+  QRCompRep.Reports.Add(QuickRep2);
+end;
+
+procedure TFRepEntradaSalida.QRDBText6Print(sender: TObject;
+  var Value: String);
+begin
+  inherited;
+  QRLTotal.Caption := FloatToStr(StrToFloat(QRLTotal.Caption)+StrToFloat(Value));
+  Value := '$ '+Value;
+end;
+
+procedure TFRepEntradaSalida.QRDBText3Print(sender: TObject;
+  var Value: String);
+begin
+  inherited;
+  QRLTotal.Caption := FloatToStr(StrToFloat(QRLTotal.Caption)-StrToFloat(Value));
+//  FREPPlanillaES.Total := StrToFloat(QRLTotal.Caption)-StrToFloat(Value);
+  Value := '$ '+Value;
+end;
+
+procedure TFRepEntradaSalida.QRExpr1Print(sender: TObject;
+  var Value: String);
+begin
+  inherited;
+  Value := '$ '+Value;
+end;
+
+procedure TFRepEntradaSalida.cPrint(sender: TObject; var Value: String);
+begin
+  inherited;
+  Value := '$ '+Value;
+end;
+
+procedure TFRepEntradaSalida.IBQSalidaFilterRecord(DataSet: TDataSet;
+  var Accept: Boolean);
+begin
+  inherited;
+  if DataSet.FieldValues['DESCRIPCION'] = 'Cierre de Caja' then
+    Accept := FPrincipal.Rol = 'Administrador';
+end;
+
+procedure TFRepEntradaSalida.IBQSalidaAfterOpen(DataSet: TDataSet);
+begin
+  inherited;
+  QRLTotal.Caption := FloatToStr(StrToFloat(QRLTotal.Caption)-Caja);
+end;
+
+end.

@@ -1,0 +1,81 @@
+unit UReppRrofesoresAerobicos;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, UUniversal, Grids, DBGrids, StdCtrls, jpeg, ExtCtrls, UDatosDB,
+  DBCtrls, DB, IBCustomDataSet, IBQuery, ComCtrls;
+
+type
+  TFRepHorasProfesor = class(TFUniversal)
+    PFiltros: TPanel;
+    PGrilla: TPanel;
+    PBotones: TPanel;
+    Image2: TImage;
+    DBGDatos: TDBGrid;
+    DBLCBProfesor: TDBLookupComboBox;
+    IBQProfesores: TIBQuery;
+    DSPersonal: TDataSource;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    DTPDesde: TDateTimePicker;
+    DTPHasta: TDateTimePicker;
+    IBQGetCantidad: TIBQuery;
+    IBQGetCantidadPROFESOR: TIBStringField;
+    IBQGetCantidadDISIPLINA: TIBStringField;
+    IBQGetCantidadCANT_CLASES: TIntegerField;
+    DSGetCantidad: TDataSource;
+    procedure FormCreate(Sender: TObject);
+    procedure DBLCBProfesorCloseUp(Sender: TObject);
+    procedure DTPDesdeChange(Sender: TObject);
+  private
+    procedure ActDatos();
+  public
+    { Public declarations }
+  end;
+
+var
+  FRepHorasProfesor: TFRepHorasProfesor;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFRepHorasProfesor.FormCreate(Sender: TObject);
+begin
+  inherited;
+  IBQProfesores.Close;
+  IBQProfesores.Open;
+  DTPDesde.Date := Date();
+  DTPHasta.Date := IncMonth(Date(),1);
+end;
+
+procedure TFRepHorasProfesor.ActDatos();
+begin
+  try
+    IBQGetCantidad.Close;
+    IBQGetCantidad.ParamByName('profe').AsInteger := DBLCBProfesor.KeyValue;
+    IBQGetCantidad.ParamByName('ini').AsString := DateToStr(DTPDesde.Date);
+    IBQGetCantidad.ParamByName('fin').AsString := DateToStr(DTPHasta.Date);
+    IBQGetCantidad.Open;
+  except
+  end;
+end;
+
+procedure TFRepHorasProfesor.DBLCBProfesorCloseUp(Sender: TObject);
+begin
+  inherited;
+  if (DBLCBProfesor.KeyValue <> null) then
+    ActDatos();
+end;
+
+procedure TFRepHorasProfesor.DTPDesdeChange(Sender: TObject);
+begin
+  inherited;
+    if (DBLCBProfesor.KeyValue <> null) then
+    ActDatos();
+end;
+
+end.

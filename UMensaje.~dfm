@@ -1,0 +1,30 @@
+inherited FMensaje: TFMensaje
+  Width = 570
+  Height = 105
+  Caption = 'FMensaje'
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited PEncabezado: TPanel
+    Width = 554
+    Height = 69
+    Align = alClient
+    inherited Image1: TImage
+      Width = 546
+      Height = 61
+      Stretch = True
+    end
+    inherited LTitulo: TLabel
+      Left = 133
+      Top = 20
+      Width = 44
+      Height = 18
+      Font.Height = -13
+    end
+    inherited Image3: TImage
+      Left = 9
+      Top = 6
+      Width = 81
+      Height = 41
+    end
+  end
+end

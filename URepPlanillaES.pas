@@ -1,0 +1,178 @@
+unit URepPlanillaES;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, UUniversal, StdCtrls, jpeg, ExtCtrls, cxControls, cxContainer,
+  cxEdit, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, ComCtrls,
+  Grids, DBGrids, DB, IBCustomDataSet, IBQuery, UDatosDB, UPrincipal,
+  cxLookAndFeelPainters, cxButtons, URepEntradaSalida, USalida, cxCheckBox,
+  DateUtils, pngimage;
+
+type
+  TFRepPlanillaES = class(TFUniversal)
+    PFiltros: TPanel;
+    DTPFecha: TDateTimePicker;
+    Label1: TLabel;
+    PBotones: TPanel;
+    Image2: TImage;
+    PGrilla: TPanel;
+    DSDatos: TDataSource;
+    DBGDatos: TDBGrid;
+    BPreliminar: TcxButton;
+    CBCerrar: TcxCheckBox;
+    BSalidas: TcxButton;
+    IBQCerrarCaja: TIBQuery;
+    BSalir: TcxButton;
+    IBQDatos: TIBQuery;
+    IBQDatosINGRESO: TIBStringField;
+    IBQDatosDISIPLINA: TIBStringField;
+    IBQDatosSALDO: TIBBCDField;
+    procedure FormCreate(Sender: TObject);
+    procedure DTPFechaChange(Sender: TObject);
+    procedure BPreliminarClick(Sender: TObject);
+    procedure BSalidasClick(Sender: TObject);
+    procedure BSalirClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormShow(Sender: TObject);
+    procedure IBQDatosFilterRecord(DataSet: TDataSet; var Accept: Boolean);
+  private
+    cantidad : integer;
+    procedure ActualizarConsulta(Fecha : TDate);
+    procedure GuardarCaja();
+    function CalcularFecha(Fecha : TDate) : TDate;
+  public
+    Total : Real;
+    Caja : Real;
+  end;
+
+var
+  FRepPlanillaES: TFRepPlanillaES;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFRepPlanillaES.FormCreate(Sender: TObject);
+begin
+  inherited;
+  cantidad := 0;
+  DTPFecha.Date := Date();
+  ActualizarConsulta(Date());
+end;
+
+procedure TFRepplanillaES.ActualizarConsulta(Fecha : TDate);
+begin
+  IBQDatos.Close;
+  IBQDatos.ParamByName('fecha').AsString := DateToStr(Fecha);
+  IBQDatos.ParamByName('fecha_2').AsDate := Fecha;
+  IBQDatos.Open;
+  Caja := 0;
+end;
+
+procedure TFRepPlanillaES.DTPFechaChange(Sender: TObject);
+begin
+  inherited;
+  ActualizarConsulta(DTPFecha.Date);
+end;
+
+procedure TFRepPlanillaES.BPreliminarClick(Sender: TObject);
+var
+  F : TFRepEntradaSalida;
+begin
+  inherited;
+  F := TFRepEntradaSalida.Create(self);
+  F.Fecha := DTPFecha.Date;
+  F.Caja := Caja;
+  F.QRCompRep.Preview;
+  Total := StrToFloat(F.QRLTotal.Caption);
+  if (CBCerrar.Checked and (cantidad = 0)) then
+  begin
+    GuardarCaja();
+    cantidad := 1;
+  end;
+  F.Destroy;
+end;
+
+function TFRepPlanillaES.CalcularFecha(Fecha : TDate) : TDate;
+begin
+  if (DayOfWeek(Fecha) = 7) then
+    Result := IncDay(Fecha,2)
+  else
+    Result := IncDay(Fecha,1);
+end;
+
+procedure TFRepPlanillaES.GuardarCaja();
+begin
+  try
+    IBQCerrarCaja.Close;
+    IBQCerrarCaja.ParamByName('desc').AsString := 'Entrada de Caja';
+    IBQCerrarCaja.ParamByName('precio').AsFloat := Total;
+    IBQCerrarCaja.ParamByName('fecha').AsString := DateToStr(CalcularFecha(DTPFecha.Date));
+    IBQCerrarCaja.ParamByName('hora').AsString := '07:00';
+    IBQCerrarCaja.Open;
+    DMGimnasio.IBTGimnasio.CommitRetaining;
+  except
+    DMGimnasio.IBTGimnasio.RollbackRetaining;
+  end;
+end;
+
+procedure TFRepPlanillaES.BSalidasClick(Sender: TObject);
+var
+  F : TFSalida;
+begin
+  inherited;
+  F := TFSalida.Create(self);
+  F.ShowModal;
+  F.Destroy;
+  ActualizarConsulta(DTPFecha.Date);
+end;
+
+procedure TFRepPlanillaES.BSalirClick(Sender: TObject);
+begin
+  inherited;
+  if CBCerrar.Checked then
+    if MessageDlg('Desea cerrar la caja?',mtConfirmation,[mbYes,mbNo],0) = mrYes then
+      GuardarCaja();
+  Close();
+end;
+
+procedure TFRepPlanillaES.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  inherited;
+ { if (CBCerrar.Checked) then
+    GuardarCaja(); }
+end;
+
+procedure TFRepPlanillaES.FormShow(Sender: TObject);
+begin
+  inherited;
+  if FPrincipal.Rol <> 'Administrador' then
+  begin
+    DTPFecha.Enabled := false;
+    CBCerrar.Visible := false;
+    BPreliminar.Enabled := false;
+  end
+  else
+  begin
+    DTPFecha.Enabled := true;
+    CBCerrar.Visible := true;
+    BPreliminar.Enabled := true;
+  end;
+end;
+
+procedure TFRepPlanillaES.IBQDatosFilterRecord(DataSet: TDataSet;
+  var Accept: Boolean);
+begin
+  inherited;
+  if DataSet.FieldValues['DISIPLINA'] = 'Cierre de Caja' then
+  begin
+    if FPrincipal.Rol <> 'Administrador' then
+      Caja := Caja + DataSet.FieldValues['SALDO'];
+    Accept := FPrincipal.Rol = 'Administrador';
+  end
+end;
+
+end.

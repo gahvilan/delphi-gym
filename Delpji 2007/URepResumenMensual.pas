@@ -1,0 +1,69 @@
+unit URepResumenMensual;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, URepGenerico, QRCtrls, QuickRpt, ExtCtrls, UDatosDB, DB,
+  IBCustomDataSet, IBQuery;
+
+type
+  TFRepResumenMensual = class(TFRepGenerico)
+    QRLabel15: TQRLabel;
+    QRBand5: TQRBand;
+    QRDBText4: TQRDBText;
+    QRDBText5: TQRDBText;
+    QRDBText6: TQRDBText;
+    QRBand2: TQRBand;
+    QRLabel3: TQRLabel;
+    QRLabel4: TQRLabel;
+    QRLabel5: TQRLabel;
+    QRLabel6: TQRLabel;
+    IBQConsulta: TIBQuery;
+    DSConsulta: TDataSource;
+    procedure QuickRep1BeforePrint(Sender: TCustomQuickRep;
+      var PrintReport: Boolean);
+    procedure QRDBText6Print(sender: TObject; var Value: String);
+    procedure QRExpr1Print(sender: TObject; var Value: String);
+  private
+    { Private declarations }
+  public
+    mes, anio : Integer;
+  end;
+
+var
+  FRepResumenMensual: TFRepResumenMensual;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFRepResumenMensual.QuickRep1BeforePrint(Sender: TCustomQuickRep;
+  var PrintReport: Boolean);
+begin
+  inherited;
+  try
+    IBQConsulta.Close;
+    IBQConsulta.ParamByName('mes').AsInteger := mes;
+    IBQConsulta.ParamByName('anio').AsInteger := anio;
+    IBQConsulta.ParamByName('tipo').AsInteger := 1;
+    IBQConsulta.Open;
+  except
+  end;
+end;
+
+procedure TFRepResumenMensual.QRDBText6Print(sender: TObject;
+  var Value: String);
+begin
+  inherited;
+  Value := '$ '+Value;
+end;
+
+procedure TFRepResumenMensual.QRExpr1Print(sender: TObject;
+  var Value: String);
+begin
+  inherited;
+  Value := '$ '+Value;
+end;
+
+end.

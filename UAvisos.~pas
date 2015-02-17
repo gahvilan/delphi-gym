@@ -1,0 +1,140 @@
+unit UAvisos;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, UUniversal, StdCtrls, jpeg, ExtCtrls, UDatosDB, DB,
+  IBCustomDataSet, IBQuery, Grids, DBGrids, cxControls, cxContainer,
+  cxEdit, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxLookAndFeelPainters,
+  cxButtons, cxCalendar, URepAvisos;
+
+type
+  TFAvisos = class(TFUniversal)
+    IBQCumpleanos: TIBQuery;
+    DSCumpleanos: TDataSource;
+    IBQCumpleanosNOMBRE: TIBStringField;
+    IBQCumpleanosAPELLIDO: TIBStringField;
+    IBQCumpleanosDIRECCION: TIBStringField;
+    IBQCumpleanosTELEFONO: TIntegerField;
+    Panel2: TPanel;
+    DBGrid1: TDBGrid;
+    Panel3: TPanel;
+    BImprimir: TcxButton;
+    Panel1: TPanel;
+    RGTipo: TRadioGroup;
+    GBFecha: TGroupBox;
+    Label1: TLabel;
+    DECumple: TcxDateEdit;
+    GBMes: TGroupBox;
+    CBMes: TcxComboBox;
+    Label2: TLabel;
+    IBQCumpleanosFECHA_CUMPLE: TIBStringField;
+    Image2: TImage;
+    procedure FormCreate(Sender: TObject);
+    procedure DECumplePropertiesChange(Sender: TObject);
+    procedure BImprimirClick(Sender: TObject);
+    procedure RGTipoClick(Sender: TObject);
+    procedure CBMesPropertiesChange(Sender: TObject);
+  private
+    procedure ActConsulta();
+  public
+    Tipo : integer;
+    Mes : integer;
+    Fecha : TDate;
+  end;
+
+var
+  FAvisos: TFAvisos;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFAvisos.FormCreate(Sender: TObject);
+begin
+  inherited;
+  Fecha := Date();
+  Mes := 1;
+  Tipo := 0;
+  CBMes.ItemIndex := Mes-1;
+  DECumple.Date := Date();
+  ActConsulta();
+end;
+
+procedure TFAvisos.ActConsulta();
+var
+  anio,mesf,dia : Word;
+begin
+  IBQCumpleanos.Close;
+  case Tipo of
+    0 : begin
+          DecodeDate(Fecha,anio,mesf,dia);
+          IBQCumpleanos.ParamByName('dia').AsInteger := dia;
+          IBQCumpleanos.ParamByName('mes').AsInteger := mesf;
+        end;
+    1 : begin
+          IBQCumpleanos.ParamByName('dia').Value := null;
+          IBQCumpleanos.ParamByName('mes').AsInteger := Mes;
+        end;
+  end;
+  IBQCumpleanos.Open;
+end;
+
+procedure TFAvisos.DECumplePropertiesChange(Sender: TObject);
+begin
+  inherited;
+  Fecha := DECumple.Date;
+  ActConsulta();
+end;
+
+procedure TFAvisos.BImprimirClick(Sender: TObject);
+var
+  F : TFRepAvisos;
+begin
+  inherited;
+  F := TFRepAvisos.Create(self);
+  F.Fecha := Fecha;
+  F.Tipo := Tipo;
+  F.Mes := Mes;
+  case Tipo of
+    0 : F.QRLFecha.Caption := DateToStr(DECumple.Date);
+    1 : F.QRLFecha.Caption := CBMes.Text;
+  end;
+  F.QuickRep1.Preview;
+  F.Destroy;
+end;
+
+procedure TFAvisos.RGTipoClick(Sender: TObject);
+begin
+  inherited;
+  Tipo := RGTipo.ItemIndex;
+  case Tipo of
+    0 : begin
+          Label1.Enabled := true;
+          DECumple.Enabled := true;
+          GBFecha.Enabled := true;
+          Label2.Enabled := false;
+          CBMes.Enabled := false;
+          GBMes.Enabled := false;
+        end;
+    1 : begin
+          Label1.Enabled := false;
+          DECumple.Enabled := false;
+          GBFecha.Enabled := false;
+          Label2.Enabled := true;
+          CBMes.Enabled := true;
+          GBMes.Enabled := true;
+        end;
+  end;
+  ActConsulta();
+end;
+
+procedure TFAvisos.CBMesPropertiesChange(Sender: TObject);
+begin
+  inherited;
+  Mes := CBMes.ItemIndex+1;
+  ActConsulta();
+end;
+
+end.

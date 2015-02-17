@@ -1,0 +1,10 @@
+CREATE TABLE AUX(
+       CLIENTE INTEGER,
+       F1 DATE,
+       F2 DATE,
+       DISC INTEGER
+);
+
+
+
+

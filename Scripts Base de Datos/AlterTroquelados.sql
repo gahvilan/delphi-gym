@@ -1,0 +1,1 @@
+alter table troquelados add precio float

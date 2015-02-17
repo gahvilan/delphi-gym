@@ -1,0 +1,6 @@
+select (C.Nombre||' '||C.Apellido) as Nombre, A.fecha_ingreso as Fecha, A.hora_ingreso as Hora, (select nombre from disiplinas D where D.id_disiplina=A.disiplina) as Disiplina, A.Paga as Pago from Clientes C, Aparatos A where A.fecha_ingreso=:fecha and C.id_cliente=A.cliente
+union
+select (cast (N.Numero as Varchar(50)))||' '||(cast (' ' as Varchar(50))) as Nombre, N.fecha as Fecha, N.Hora as Hora, (select nombre from disiplinas D where D.id_disiplina=N.disiplina) as Disiplina, N.Pago as Pago from Numeros N where N.fecha=:fecha
+union
+select (C.Nombre||' '||C.Apellido) as Nombre, A.fecha as Fecha, A.hora as Hora, (select nombre from disiplinas D where D.id_disiplina=A.disciplina) as Disiplina, A.Paga as Pago from Clientes C, Crossfit A
+where A.fecha=:fecha and C.id_cliente=A.id_cliente

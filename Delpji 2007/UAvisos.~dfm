@@ -1,0 +1,280 @@
+inherited FAvisos: TFAvisos
+  Left = 336
+  Top = 62
+  Width = 846
+  Height = 591
+  Caption = 'FAvisos'
+  OldCreateOrder = True
+  Position = poScreenCenter
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited PEncabezado: TPanel
+    Width = 838
+    inherited Image1: TImage
+      Width = 830
+      Stretch = True
+    end
+    inherited LTitulo: TLabel
+      Width = 195
+      Caption = 'Cumplea'#241'os del Dia'
+    end
+    inherited Image3: TImage
+      Left = 576
+    end
+  end
+  object Panel2: TPanel
+    Left = 0
+    Top = 161
+    Width = 838
+    Height = 330
+    Align = alClient
+    TabOrder = 1
+    object DBGrid1: TDBGrid
+      Left = 1
+      Top = 1
+      Width = 836
+      Height = 328
+      Align = alClient
+      DataSource = DSCumpleanos
+      Options = [dgTitles, dgColumnResize, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
+      ReadOnly = True
+      TabOrder = 0
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'MS Sans Serif'
+      TitleFont.Style = []
+      Columns = <
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'APELLIDO'
+          Title.Alignment = taCenter
+          Title.Caption = 'Apellido'
+          Width = 235
+          Visible = True
+        end
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'NOMBRE'
+          Title.Alignment = taCenter
+          Title.Caption = 'Nombre'
+          Width = 198
+          Visible = True
+        end
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'DIRECCION'
+          Title.Alignment = taCenter
+          Title.Caption = 'Direccion'
+          Width = 211
+          Visible = True
+        end
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'TELEFONO'
+          Title.Alignment = taCenter
+          Title.Caption = 'Telefono'
+          Width = 97
+          Visible = True
+        end
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'FECHA_CUMPLE'
+          Title.Alignment = taCenter
+          Title.Caption = 'Fecha Nacimiento'
+          Visible = True
+        end>
+    end
+  end
+  object Panel3: TPanel
+    Left = 0
+    Top = 491
+    Width = 838
+    Height = 71
+    Align = alBottom
+    TabOrder = 2
+    object BImprimir: TcxButton
+      Left = 56
+      Top = 24
+      Width = 201
+      Height = 25
+      Caption = 'Imprimir Listado de Cumplea'#241'os'
+      TabOrder = 0
+      OnClick = BImprimirClick
+      Glyph.Data = {
+        36030000424D3603000000000000360000002800000010000000100000000100
+        1800000000000003000000000000000000000000000000000000FFFFFFFFFFFF
+        FFFFFFFFFFFFFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFEFEFEFDFDFEFEFEFEFEFEFE
+        FEFEFFFEFEFFFFFEFFFEFEFEFEFEFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFEFE
+        FDFDFDFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFCFEFFFEFFFFFFFFFFFDFD
+        FDFDFDFDFDFDFDFFFFFFFEFEFEFFFFFFF8F8F8CBCACABBBFC3BBBEC2BABCBEB8
+        B8BAB5B4B4B7B3B1AEABA8DDDEDFFFFFFFFFFFFFFFFFFFFEFEFEFDFDFDEDECEC
+        D3D5D7B8ACA4D47F43DA8B4EDBA06CD88438E19042D1742BB66D3F8D8D8FBFBF
+        BEBDBDBDD1D1D1FFFFFFFFFFFF9C9C9C6363636C6D70D0A574D7B36BD5BE81C4
+        AE729F8C607D7055696A5F6C6F6F5D5C5C6767675A5A5AD2D2D2FFFFFFA8A8A9
+        6F707077767654616529626E2C626C285B651F515D20515B204C523845467673
+        73818383525252868686FFFFFFC6C7C69E9E9EAAAAAA7573725A5655605D5C66
+        62606A66646C67666F6A69767676A0A0A0B3ADAD6868686F6F6FFFFFFFCFC8CE
+        8AAE8D8EBD92AFA8AFADAFAEACACACAAABABA9AAAAA7A7A8A5A5A5A3A3A3AFB1
+        B2A4DCE3797A7A777777FFFFFFEDEBEDC6CFC8D3DED5A6A5A73E3E3E4E4E4E4A
+        4A4A4B4B4B4B4B4B4B4B4B505050C8C7C8CAEAEEB1B4B5908F8FFEFEFEFFFFFF
+        F0EEEFE5E2E4DCDCDCA0A0A0ADADADA8A8A8A4A4A4A3A3A3A4A4A4A2A2A2C2C2
+        C2DED8D7D0D0D0BCBCBCFFFFFFFEFEFEFFFFFFF8F9F8F8F8F9F7F7F7E8E8E8EA
+        EAEAEAEAEAE9E9E9E9E9E9E0E0E0D5D5D5FAFBFCFAFAFAFCFCFCFFFFFFFFFFFF
+        FEFEFEFFFFFFFFFFFFFDFDFDF0F0F0F0F0F0F0F0F0F0F0F0F1F1F1EEEEEED5D5
+        D5FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFEFEFEFEFEFEFEFEF7F7F7F4
+        F4F4F4F4F4F4F4F4F4F4F4F7F7F7E6E6E6FCFCFCFEFEFEFEFEFEFFFFFFFFFFFF
+        FFFFFFFFFFFFFEFEFEFFFFFFF7F7F7F1F1F1F3F3F3F3F3F3F3F3F3F3F3F3F4F4
+        F4FEFEFEFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFEFEFFFFFFFEFEFEFC
+        FCFCFDFDFDFDFDFDFDFDFDFDFDFDFEFEFEFFFFFFFFFFFFFFFFFF}
+      LookAndFeel.Kind = lfStandard
+      LookAndFeel.NativeStyle = True
+      UseSystemPaint = False
+    end
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 73
+    Width = 838
+    Height = 88
+    Align = alTop
+    TabOrder = 3
+    object RGTipo: TRadioGroup
+      Left = 1
+      Top = 1
+      Width = 185
+      Height = 86
+      Align = alLeft
+      Caption = 'Tipo de Busqueda'
+      ItemIndex = 0
+      Items.Strings = (
+        'Por Fecha'
+        'Por Mes')
+      TabOrder = 0
+      OnClick = RGTipoClick
+    end
+    object GBFecha: TGroupBox
+      Left = 186
+      Top = 1
+      Width = 281
+      Height = 86
+      Align = alLeft
+      Caption = 'Por Fecha'
+      TabOrder = 1
+      object Label1: TLabel
+        Left = 7
+        Top = 24
+        Width = 106
+        Height = 13
+        Caption = 'Fecha de Cumplea'#241'os'
+      end
+      object DECumple: TcxDateEdit
+        Left = 63
+        Top = 44
+        Width = 194
+        Height = 21
+        Properties.OnChange = DECumplePropertiesChange
+        TabOrder = 0
+      end
+    end
+    object GBMes: TGroupBox
+      Left = 467
+      Top = 1
+      Width = 370
+      Height = 86
+      Align = alClient
+      Caption = 'Por Mes'
+      Enabled = False
+      TabOrder = 2
+      object Label2: TLabel
+        Left = 25
+        Top = 23
+        Width = 20
+        Height = 13
+        Caption = 'Mes'
+        Enabled = False
+      end
+      object CBMes: TcxComboBox
+        Left = 56
+        Top = 41
+        Width = 153
+        Height = 21
+        Enabled = False
+        Properties.Items.Strings = (
+          'Enero'
+          'Febrero'
+          'Marzo'
+          'Abril'
+          'Mayo'
+          'Junio'
+          'Julio'
+          'Agosto'
+          'Sptiembre'
+          'Octubre'
+          'Noviembre'
+          'Diciembre')
+        Properties.OnChange = CBMesPropertiesChange
+        TabOrder = 0
+      end
+    end
+  end
+  object IBQCumpleanos: TIBQuery
+    Database = DMGimnasio.IBDGimnasio
+    Transaction = DMGimnasio.IBTGimnasio
+    BufferChunks = 1000
+    CachedUpdates = False
+    SQL.Strings = (
+      
+        'select * from cumpleanios(:dia,:mes) order by apellido, nombre a' +
+        'sc')
+    Left = 400
+    Top = 24
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'DIA'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'MES'
+        ParamType = ptUnknown
+      end>
+    object IBQCumpleanosNOMBRE: TIBStringField
+      FieldName = 'NOMBRE'
+      Origin = 'CUMPLEANIOS.NOMBRE'
+      Size = 50
+    end
+    object IBQCumpleanosAPELLIDO: TIBStringField
+      FieldName = 'APELLIDO'
+      Origin = 'CUMPLEANIOS.APELLIDO'
+      Size = 50
+    end
+    object IBQCumpleanosDIRECCION: TIBStringField
+      FieldName = 'DIRECCION'
+      Origin = 'CUMPLEANIOS.DIRECCION'
+      Size = 100
+    end
+    object IBQCumpleanosTELEFONO: TIntegerField
+      FieldName = 'TELEFONO'
+      Origin = 'CUMPLEANIOS.TELEFONO'
+    end
+    object IBQCumpleanosFECHA_CUMPLE: TIBStringField
+      FieldName = 'FECHA_CUMPLE'
+      Origin = 'CUMPLEANIOS.FECHA_CUMPLE'
+      Size = 10
+    end
+  end
+  object DSCumpleanos: TDataSource
+    DataSet = IBQCumpleanos
+    Left = 360
+    Top = 24
+  end
+end
